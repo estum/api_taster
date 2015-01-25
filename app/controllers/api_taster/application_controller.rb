@@ -3,8 +3,6 @@ module ApiTaster
     layout proc { |controller| controller.request.xhr? ? false : 'api_taster/application' }
 
     before_filter :reload_routes
-
-    AppTaster.controller_hooks.each {|hook| hook.call(self) }
     
     private
 
