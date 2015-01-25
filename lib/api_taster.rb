@@ -25,5 +25,22 @@ module ApiTaster
     ApiTaster::RouteCollector.routes << block
   end
 
+  # Array of procs, which will be invoked within ApiTaster::ApplicationControler.
+  # Controller hooking may used for custom filters, authorizations, etc.
+  mattr_accessor :controller_hooks
+  @@controller_hooks = []
+  
+  # Add a hook to controller.
+  # 
+  # Example with addding basic authentication: 
+  #     
+  #     ApiTaster.add_controller_hook do
+  #       http_basic_authenticate_with name: "admin", password: "123456", only: nil
+  #     end
+  # 
+  def self.add_controller_hook(&block)
+    @@controller_hook = proc {|klass| klass.instance_exec(&block) }
+  end
+  
   class Exception < ::Exception; end
 end

@@ -4,6 +4,8 @@ module ApiTaster
 
     before_filter :reload_routes
 
+    AppTaster.controller_hooks.each {|hook| hook.call(self) }
+    
     private
 
     def reload_routes
